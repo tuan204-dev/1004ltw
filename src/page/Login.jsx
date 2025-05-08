@@ -1,6 +1,7 @@
-import { useLocalStorage } from "@uidotdev/usehooks";
 import { Button, Input } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import AuthServices from "../services/AuthServices";
+import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 // fake credential
@@ -11,28 +12,26 @@ const fakeCredential = {
 };
 
 const Login = () => {
+  const { setUser } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage("is_logged_in", false);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (
-      username === fakeCredential.username &&
-      password === fakeCredential.password
-    ) {
-      setIsLoggedIn(true);
-      navigate("/", { replace: true });
-    } else {
-      alert("Invalid credentials");
+  const handleLogin = async () => {
+    try {
+      const res = await AuthServices.login(username, password);
+
+      if (res.success) {
+        setUser(res.data);
+        navigate("/");
+      } else {
+        throw new Error(res.message);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Login failed");
     }
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/", { replace: true });
-    }
-  }, [isLoggedIn, navigate]);
 
   return (
     <div className="w-full grid place-items-center">
