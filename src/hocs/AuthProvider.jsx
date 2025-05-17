@@ -15,13 +15,13 @@ const AuthProvider = ({ children }) => {
 
   const result = useMemo(() => ({ user, setUser }), [user, setUser]);
 
-  if (user && PublicRoutes.includes(pathname)) {
-    navigate("/");
-  }
+//   if (user && PublicRoutes.includes(pathname)) {
+//     navigate("/");
+//   }
 
-  if (!user && PrivateRoutes.includes(pathname)) {
-    navigate("/login");
-  }
+//   if (!user && PrivateRoutes.includes(pathname)) {
+//     navigate("/login");
+//   }
 
   return <AuthContext.Provider value={result}>{children}</AuthContext.Provider>;
 };

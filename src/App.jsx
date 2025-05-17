@@ -5,6 +5,7 @@ import About from "./page/About";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import AuthProvider from "./hocs/AuthProvider";
+import PostDetail from "./page/PostDetail";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
+            <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/about" element={<About />} />
           </Route>
         </Routes>
